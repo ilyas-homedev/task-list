@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![list](./src/assets/list.png)
 
 # Task List
