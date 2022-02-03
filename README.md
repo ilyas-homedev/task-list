@@ -1,1 +1,1 @@
-!image[./src/assets/list.png] #Task List
+#Task List
