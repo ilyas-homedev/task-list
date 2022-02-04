@@ -5,9 +5,10 @@ import {
   Col,
   Container,
   Form,
-  ListGroup,
   Row,
+  CloseButton,
 } from "react-bootstrap";
+import ItemList from "./components/ItemList";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -20,7 +21,7 @@ function App() {
     setWarning(null);
     const todoValue = input.current.value;
 
-    if (todoValue === "") {
+    if (todoValue === "" && todoList.length !== 10) {
       setWarning("Value can't be empty!");
       return;
     }
@@ -45,14 +46,17 @@ function App() {
     setTodoList(filteredList);
   };
 
-  console.log(todoList);
+  const closeWarningHandler = () => {
+    setWarning(null);
+  };
 
   return (
     <Fragment>
+      <h1 className="header-text">Task List v.0.1.0</h1>
       <Container className="mt-5">
         <Form onSubmit={submitHandler}>
-          <Row className="justify-content-sm-center">
-            <Col xs md={8} lg={6}>
+          <Row className="justify-content-center mt-2">
+            <Col xs md={7} lg={6} className="mt-1 mb-1">
               <Form.Group>
                 <Form.Control
                   type="text"
@@ -61,39 +65,33 @@ function App() {
                 />
               </Form.Group>
             </Col>
-            <Col xs={12} sm={1}>
-              <Button type="submit">Add</Button>
+            <Col xs={12} md={2} lg={1} className="mt-1 mb-1">
+              <Button style={{ width: "100%" }} type="submit">
+                Add
+              </Button>
             </Col>
           </Row>
         </Form>
       </Container>
-      <Container className="mt-2">
-        <ListGroup>
-          <Row className="justify-content-sm-center">
-            <Col lg={7} md={9}>
-              {todoList.map((item, index) => {
-                return (
-                  <ListGroup.Item key={item.id} className="list-item">
-                    <span>{index + 1}. </span>
-                    {item.text}
-                    <button
-                      className="delete-cross"
-                      onClick={() => deleteHandler(item.id)}
-                    >
-                      &times;
-                    </button>
-                  </ListGroup.Item>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className="justify-content-sm-center mt-2">
-            <Col lg={7} md={9}>
-              {!warning || <Alert variant="danger">{warning}</Alert>}
-            </Col>
-          </Row>
-        </ListGroup>
+      <Container className="mt-4">
+        <Row className="justify-content-center">
+          <Col md={9} lg={7}>
+            <ItemList list={todoList} onDelete={deleteHandler} />
+          </Col>
+        </Row>
+        <Row className="justify-content-center mt-2">
+          <Col lg={7} md={9}>
+            {!warning || (
+              <Alert variant="danger">
+                {warning}
+                <CloseButton
+                  className="delete-cross"
+                  onClick={closeWarningHandler}
+                />
+              </Alert>
+            )}
+          </Col>
+        </Row>
       </Container>
     </Fragment>
   );
