@@ -34,7 +34,12 @@ function App() {
     setTodoList((prev) => {
       return [
         ...prev,
-        { id: Math.floor(Math.random() * 1000), text: todoValue },
+        {
+          id:
+            Math.floor(Math.random() * 10000) +
+            `_${todoValue.slice(-10, -1).split(" ").join("")}`,
+          text: todoValue,
+        },
       ];
     });
 
